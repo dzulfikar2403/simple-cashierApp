@@ -53,21 +53,6 @@ const updateData = async (req,res) => {
       throw Error('ID not found!')
     }
 
-    // if(req.fileValidationErr){
-    //   throw Error(req.fileValidationErr)
-    // }
-
-    // if (!NamaProduk || !Harga || !Stok) {
-    //   throw Error("field must be fill");
-    // }
-    
-    // let FotoProdukNew = [];
-    // if(files.length > 0){
-    //   FotoProdukNew = files.map(el => el.filename);
-    // }else{
-    //   FotoProdukNew = produkById.FotoProduk;
-    // }
-
     const dataUpdate = {
       NamaProduk: NamaProduk || produkById.NamaProduk,
       Thumbnail: produkById.Thumbnail,
