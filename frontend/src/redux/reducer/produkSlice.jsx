@@ -19,9 +19,11 @@ export const postProduct = createAsyncThunk('produk/postProduct',async (obj) => 
   return data;
 })
 
-export const updateProduct = createAsyncThunk('produk/updateProduct',async (id,obj) => {
-  const {data} = await axios.put(`http://localhost:3000/produk/${id}`,obj);
+//createasyncthunk hanya menerima 1 parameter, jika ingin lebih bungkus dalam 1 object dan destructure mereka.
+export const updateProduct = createAsyncThunk('produk/updateProduct',async ({id,dataObj}) => {
+  const {data} = await axios.put(`http://localhost:3000/produk/${id}`,dataObj);
 
+  console.log(dataObj);
   return data;
 })
 
@@ -62,8 +64,6 @@ const produkSlice = createSlice({
     // postProduct
     builder.addCase(postProduct.fulfilled,(state,action) => {
       state.isLoading = false;
-      console.log(action.payload);
-      
       state.isMessage = action.payload;
     });
     
