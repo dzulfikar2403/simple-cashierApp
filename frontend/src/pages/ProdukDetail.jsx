@@ -40,7 +40,7 @@ const ProdukDetail = () => {
               </div>
               <div className="text-white flex flex-col gap-4 p-4">
                 <h1 className="text-4xl font-bold">{produkSingle.NamaProduk}</h1>
-                <small className="text-slate-400 ">{produkSingle._id}</small>
+                <small className="text-slate-400 ">#{produkSingle._id}</small>
                 <pre className="text-5xl">{produkSingle.Harga.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}</pre>
                 <p>Stok : {produkSingle.Stok}</p>
                 <h2>Created At: {produkSingle.createdAt.slice(0, 10).split("-").reverse().join("-")}</h2>

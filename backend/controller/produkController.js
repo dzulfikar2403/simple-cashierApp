@@ -43,37 +43,29 @@ const postData = async (req, res) => {
   }
 };
 
+
 const updateData = async (req,res) => {
   const { NamaProduk, Harga, Stok } = req.body;
   const {id} = req.params;
-
+  console.log(req.body);
+  console.log(id);
+  
   try {
     const produkById = await Produk.findOne().where('_id').equals(id).exec();
     if(!produkById){
       throw Error('ID not found!')
     }
 
-    // if(req.fileValidationErr){
-    //   throw Error(req.fileValidationErr)
-    // }
-
-    // if (!NamaProduk || !Harga || !Stok) {
-    //   throw Error("field must be fill");
-    // }
-    
-    // let FotoProdukNew = [];
-    // if(files.length > 0){
-    //   FotoProdukNew = files.map(el => el.filename);
-    // }else{
-    //   FotoProdukNew = produkById.FotoProduk;
-    // }
+    if (!NamaProduk || !Harga || !Stok) {
+      throw Error("field must be fill");
+    }
 
     const dataUpdate = {
-      NamaProduk: NamaProduk || produkById.NamaProduk,
+      NamaProduk: NamaProduk,
       Thumbnail: produkById.Thumbnail,
       FotoProduk: produkById.FotoProduk,
-      Harga: Harga || produkById.Harga,
-      Stok: Stok || produkById.Stok,
+      Harga: Harga,
+      Stok: Stok,
     }
     
     await Produk.updateOne({_id: id},dataUpdate);

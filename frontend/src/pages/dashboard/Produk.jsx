@@ -93,10 +93,7 @@ const Produk = () => {
   const handleSubmitEdit = (e,dataID) => {
     e.preventDefault();
 
-    console.log(dataID);
-    console.log(valueForm);
-    
-    dispatch(updateProduct(dataID,valueForm)).then(() => {
+    dispatch(updateProduct({id:dataID,dataObj:valueForm})).then(() => {
       dispatch(getProducts());
     })
   };
@@ -189,7 +186,7 @@ const Produk = () => {
       {toggleEdit && (
         <Modal onclickModal={closeHandleEdit}>
           {produkSingle && (
-            <Modal.form encType={"multipart/form-data"} type={"update"} isSucces={isMessage} isError={errorForm || (isMessage !== "success" && isMessage)} onsubmit={(e) => handleSubmitEdit(e,produkSingle._id)}>
+            <Modal.form type={"update"} isSucces={isMessage} isError={errorForm || (isMessage !== "success" && isMessage)} onsubmit={(e) => handleSubmitEdit(e,produkSingle._id)}>
               <Modal.input title={"NamaProduk"} type={"text"} value={valueForm.NamaProduk} onchange={handleInput} />
               <Modal.input title={"Harga"} type={"number"} value={valueForm.Harga} onchange={handleInput} />
               <Modal.input title={"Stok"} type={"number"} value={valueForm.Stok} onchange={handleInput} />
