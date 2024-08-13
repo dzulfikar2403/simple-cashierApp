@@ -3,9 +3,6 @@ const Pelanggan = require('../model/pelanggan');
 const getData = async (req,res)=>{
   try {
     const findAll = await Pelanggan.find().exec();
-    if(findAll.length === 0){
-      throw Error('data empty')
-    }
 
     res.json(findAll)
   } catch (error) {

@@ -9,28 +9,35 @@ export const getProducts = createAsyncThunk('produk/getProducts',async()=>{
 
 export const getProductsById = createAsyncThunk('produk/getProductsById',async(id) => {
   const {data} = await axios.get(`http://localhost:3000/produk/${id}`);
-
+  
   return data;
 })
 
-export const postProduct = createAsyncThunk('produk/postProduct',async (obj) => {
+export const postProduct = createAsyncThunk('produk/postProduct',async (obj,thunkAPI) => {
   const {data} = await axios.post(`http://localhost:3000/produk`,obj);
+  thunkAPI.dispatch(getProducts());
   
   return data;
 })
 
 //createasyncthunk hanya menerima 1 parameter, jika ingin lebih bungkus dalam 1 object dan destructure mereka.
-export const updateProduct = createAsyncThunk('produk/updateProduct',async ({id,dataObj}) => {
+export const updateProduct = createAsyncThunk('produk/updateProduct',async ({id,dataObj},thunkAPI) => {
   const {data} = await axios.put(`http://localhost:3000/produk/${id}`,dataObj);
+  thunkAPI.dispatch(getProducts());
 
   console.log(dataObj);
   return data;
 })
 
-export const deleteProduct = createAsyncThunk('produk/deleteProduct',async (id) => {
-  const {data} = await axios.delete(`http://localhost:3000/produk/${id}`);
+export const deleteProduct = createAsyncThunk('produk/deleteProduct',async (id,thunkAPI) => {
+  if (confirm("Yakin dek ???") === true) {
+    const {data} = await axios.delete(`http://localhost:3000/produk/${id}`);
+    thunkAPI.dispatch(getProducts());
 
-  return data;
+    return data;
+  } else {
+    alert("dek dek dibilang jangan... -_-");
+  }
 })
 
 const initialState = {
@@ -44,7 +51,7 @@ const produkSlice = createSlice({
   name: "produk",
   initialState,
   reducers:{
-    setMessageNull: (state) => {
+    setProdukMessageNull: (state) => {
       state.isMessage = null;
     }
   },
@@ -81,5 +88,5 @@ const produkSlice = createSlice({
   }
 })
 
-export const {setMessageNull} = produkSlice.actions;
+export const {setProdukMessageNull} = produkSlice.actions;
 export default produkSlice.reducer;

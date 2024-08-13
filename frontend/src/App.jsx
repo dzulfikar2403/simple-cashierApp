@@ -5,6 +5,7 @@ import { Provider } from "react-redux"
 import Store from "./redux/Store"
 import ProdukDetail from "./pages/ProdukDetail"
 import Produk from "./pages/dashboard/Produk"
+import Pelanggan from "./pages/dashboard/Pelanggan"
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Route path="/dashboard/home" element={<Home />} />
           <Route path="/dashboard/produk" element={<Produk />} />
           <Route path="/produk/:id" element={<ProdukDetail />} />
-          <Route path="/dashboard/pelanggan" element={<DashboardLayout />} />
+          <Route path="/dashboard/pelanggan" element={<Pelanggan />} />
           <Route path="/dashboard/penjualan" element={<DashboardLayout />} />
           <Route path="/dashboard/user" element={<DashboardLayout />} />
         </Routes>

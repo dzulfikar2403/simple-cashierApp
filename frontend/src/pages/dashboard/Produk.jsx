@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import Table from "../../components/fragment/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct, getProducts, getProductsById, postProduct, setMessageNull, updateProduct } from "../../redux/reducer/produkSlice";
+import { deleteProduct, getProducts, getProductsById, postProduct, setProdukMessageNull, updateProduct } from "../../redux/reducer/produkSlice";
 import Loader from "../../components/element/Loader";
 import Modal from "../../components/fragment/Modal";
 
 const Produk = () => {
-  const [tHeadProduk, setTHeadProduk] = useState();
-  const { produk, produkSingle, isError, isLoading, isMessage } = useSelector((state) => state.produkSlice);
   const dispatch = useDispatch();
+  const [tHeadProduk, setTHeadProduk] = useState([]);
+  const { produk, produkSingle, isLoading, isMessage } = useSelector((state) => state.produkSlice);
   const [toggleTambah, setToggleTambah] = useState(false);
   const [toggleEdit, setToggleEdit] = useState(false);
   const [fileForm, setFileForm] = useState([]);
@@ -20,6 +20,7 @@ const Produk = () => {
     Harga: 0,
     Stok: 0,
   });
+
 
   //global func
   const handleInput = (e) => {
@@ -46,7 +47,7 @@ const Produk = () => {
 
   const closeHandleTambah = () => {
     setToggleTambah((pre) => !pre);
-    dispatch(setMessageNull());
+    dispatch(setProdukMessageNull());
     setErrorForm(null);
   };
 
@@ -66,9 +67,7 @@ const Produk = () => {
       formData.append("FotoProduk", el);
     });
 
-    dispatch(postProduct(formData)).then(() => {
-      dispatch(getProducts());
-    });
+    dispatch(postProduct(formData))
   };
 
   //editData
@@ -79,7 +78,7 @@ const Produk = () => {
 
   const closeHandleEdit = () => {
     setToggleEdit((pre) => !pre);
-    dispatch(setMessageNull());
+    dispatch(setProdukMessageNull());
     setErrorForm(null);
 
     setValueForm((pre) => ({
@@ -93,20 +92,7 @@ const Produk = () => {
   const handleSubmitEdit = (e,dataID) => {
     e.preventDefault();
 
-    dispatch(updateProduct({id:dataID,dataObj:valueForm})).then(() => {
-      dispatch(getProducts());
-    })
-  };
-
-  //deleteData
-  const handleDelete = (dataID) => {
-    if (confirm("Yakin dek ???") === true) {
-      dispatch(deleteProduct(dataID)).then(() => {
-        dispatch(getProducts());
-      });
-    } else {
-      alert("dek dek dibilang jangan... -_-");
-    }
+    dispatch(updateProduct({id:dataID,dataObj:valueForm}))
   };
 
   // searchData
@@ -151,7 +137,7 @@ const Produk = () => {
           <Loader />
         ) : (
           <Table tHead={tHeadProduk} onclickBtn={openHandleTambah}>
-            {dataTemp &&
+            {(dataTemp || []) &&
               dataTemp.map((el, i) => (
                 <Table.TableR key={i}>
                   <Table.TableTD>{el._id}</Table.TableTD>
@@ -160,7 +146,7 @@ const Produk = () => {
                   <Table.TableTD>{el.Stok}</Table.TableTD>
                   <Table.TableTD>
                     <div className="flex gap-4 text-white font-semibold">
-                      <button className="p-2 bg-rose-400" onClick={() => handleDelete(el._id)}>
+                      <button className="p-2 bg-rose-400" onClick={() => dispatch(deleteProduct(el._id))}>
                         del
                       </button>
                       <button className="p-2 bg-yellow-400" onClick={() => openHandleEdit(el._id)}>
@@ -175,7 +161,7 @@ const Produk = () => {
       </div>
       {toggleTambah && (
         <Modal onclickModal={closeHandleTambah}>
-          <Modal.form encType={"multipart/form-data"} type={"tambah"} isSucces={isMessage} isError={errorForm || (isMessage !== "success" && isMessage)} onsubmit={handleSubmitTambah}>
+          <Modal.form encType={"multipart/form-data"} type={"file"} isSucces={isMessage} isError={errorForm || (isMessage !== "success" && isMessage)} onsubmit={handleSubmitTambah}>
             <Modal.input title={"NamaProduk"} type={"text"} onchange={handleInput} />
             <Modal.input title={"Harga"} type={"number"} onchange={handleInput} />
             <Modal.input title={"Stok"} type={"number"} onchange={handleInput} />
@@ -186,7 +172,7 @@ const Produk = () => {
       {toggleEdit && (
         <Modal onclickModal={closeHandleEdit}>
           {produkSingle && (
-            <Modal.form type={"update"} isSucces={isMessage} isError={errorForm || (isMessage !== "success" && isMessage)} onsubmit={(e) => handleSubmitEdit(e,produkSingle._id)}>
+            <Modal.form isSucces={isMessage} isError={errorForm || (isMessage !== "success" && isMessage)} onsubmit={(e) => handleSubmitEdit(e,produkSingle._id)}>
               <Modal.input title={"NamaProduk"} type={"text"} value={valueForm.NamaProduk} onchange={handleInput} />
               <Modal.input title={"Harga"} type={"number"} value={valueForm.Harga} onchange={handleInput} />
               <Modal.input title={"Stok"} type={"number"} value={valueForm.Stok} onchange={handleInput} />

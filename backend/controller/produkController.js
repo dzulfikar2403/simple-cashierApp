@@ -47,8 +47,6 @@ const postData = async (req, res) => {
 const updateData = async (req,res) => {
   const { NamaProduk, Harga, Stok } = req.body;
   const {id} = req.params;
-  console.log(req.body);
-  console.log(id);
   
   try {
     const produkById = await Produk.findOne().where('_id').equals(id).exec();
