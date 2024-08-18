@@ -48,7 +48,7 @@ function AppWithRouter() {
         <Route path="/produk/:id" element={userInfo ? <ProdukDetail /> : <Navigate to={'/login'}/>} />
         <Route path="/dashboard/pelanggan" element={userInfo ? <Pelanggan /> : <Navigate to={'/login'}/>} />
         <Route path="/dashboard/penjualan" element={userInfo ? <DashboardLayout /> : <Navigate to={'/login'}/>} />
-        <Route path="/dashboard/user" element={userInfo?.role === 1 ? <UserPage /> : <Navigate to={'/login'}/>} />
+        <Route path="/dashboard/user" element={userInfo?.role === 1 ? <UserPage /> : <Navigate to={'/dashboard/home'}/>} />
       </Routes>
     </Router>
   );

@@ -134,20 +134,20 @@ const Pelanggan = () => {
       </div>
       {toggleTambah && (
         <Modal onclickModal={closeHandleTambah}>
-          <Modal.form isSucces={isMessage} isError={isMessage !== "success post" && isMessage} onsubmit={handleSubmitTambah}>
-            <Modal.input title={"NamaPelanggan"} type={"text"} onchange={handleInput} />
-            <Modal.input title={"Alamat"} type={"text"} onchange={handleInput} />
-            <Modal.input title={"NomorTelepon"} type={"text"} onchange={handleInput} />
+          <Modal.form isSucces={isMessage} type={"tambah"} isError={isMessage !== "success post" && isMessage} onsubmit={handleSubmitTambah}>
+            <Modal.input title={"Nama-Pelanggan"} nameId={"NamaPelanggan"} type={"text"} onchange={handleInput} />
+            <Modal.input title={"Alamat"} nameId={"Alamat"} type={"text"} onchange={handleInput} />
+            <Modal.input title={"Nomor-Telepon"} nameId={"NomorTelepon"} type={"text"} onchange={handleInput} />
           </Modal.form>
         </Modal>
       )}
       {toggleEdit && (
         <Modal onclickModal={closeHandleEdit}>
           {pelangganSingle && (
-            <Modal.form isSucces={isMessage} isError={isMessage !== "success update data" && isMessage} onsubmit={(e) => handleSubmitEdit(e, pelangganSingle._id)}>
-              <Modal.input title={"NamaPelanggan"} type={"text"} value={valueForm.NamaPelanggan} onchange={handleInput} />
-              <Modal.input title={"Alamat"} type={"text"} value={valueForm.Alamat} onchange={handleInput} />
-              <Modal.input title={"NomorTelepon"} type={"text"} value={valueForm.NomorTelepon} onchange={handleInput} />
+            <Modal.form isSucces={isMessage} type={"update"} isError={isMessage !== "success update data" && isMessage} onsubmit={(e) => handleSubmitEdit(e, pelangganSingle._id)}>
+              <Modal.input title={"Nama-Pelanggan"} nameId={"NamaPelanggan"} type={"text"} value={valueForm.NamaPelanggan} onchange={handleInput} />
+              <Modal.input title={"Alamat"} nameId={"Alamat"} type={"text"} value={valueForm.Alamat} onchange={handleInput} />
+              <Modal.input title={"Nomor-Telepon"} nameId={"NomorTelepon"} type={"text"} value={valueForm.NomorTelepon} onchange={handleInput} />
             </Modal.form>
           )}
         </Modal>

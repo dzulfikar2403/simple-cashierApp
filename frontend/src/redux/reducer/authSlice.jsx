@@ -12,7 +12,7 @@ export const deleteUser = createAsyncThunk("auth/deleteUser", async (id, thunkAP
   if (confirm("are you sure ?") === true) {
     try {
       const { data } = await axios.delete(`http://localhost:3000/users/${id}`);
-      thunkAPI.dispatch(logout());
+      thunkAPI.dispatch(getAllUsers());
 
       return data;
     } catch (error) {
@@ -21,22 +21,34 @@ export const deleteUser = createAsyncThunk("auth/deleteUser", async (id, thunkAP
   }
 });
 
-export const registerAuth = createAsyncThunk("auth/registerAuth", async (obj, thunkApi) => {
-  // register hanya untuk admin
+//register via form admin. bisa untuk petugas dan admin.
+export const registerUser = createAsyncThunk("auth/registerUser", async (obj,thunkAPI) => {
+  try {
+    const { data } = await axios.post("http://localhost:3000/users/register", obj);
+    thunkAPI.dispatch(getAllUsers());
+
+    return data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+})
+
+// register hanya untuk admin
+export const registerAuth = createAsyncThunk("auth/registerAuth", async (obj, thunkAPI) => {
   if (obj.role === 1 && obj.password === obj.confirmPassword) {
     try {
       const { data } = await axios.post("http://localhost:3000/users/register", obj);
 
       return data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   } else {
-    return thunkApi.rejectWithValue("role must be 1/admin & password must be matched with confirm password!");
+    return thunkAPI.rejectWithValue("role must be 1/admin & password must be matched with confirm password!");
   }
 });
 
-export const loginAuth = createAsyncThunk("auth/loginAuth", async (obj, thunkApi) => {
+export const loginAuth = createAsyncThunk("auth/loginAuth", async (obj, thunkAPI) => {
   const { decodeJwt } = useDecodejwt();
 
   try {
@@ -51,12 +63,10 @@ export const loginAuth = createAsyncThunk("auth/loginAuth", async (obj, thunkApi
       };
 
       localStorage.setItem("user", JSON.stringify(finalObj));
-      console.log(finalObj);
-
       return finalObj;
     }
   } catch (error) {
-    return thunkApi.rejectWithValue(error.response.data);
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 });
 
@@ -93,6 +103,16 @@ const authSlice = createSlice({
     });
     builder.addCase(deleteUser.rejected, (state, action) => {
       state.isError = action.payload;
+    });
+
+    // registerUser
+    builder.addCase(registerUser.fulfilled, (state, action) => {
+      state.isMessage = action.payload;
+      state.isError = null;
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
+      state.isError = action.payload;
+      state.isMessage = null;
     });
 
     // loginAuth

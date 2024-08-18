@@ -161,21 +161,21 @@ const Produk = () => {
       </div>
       {toggleTambah && (
         <Modal onclickModal={closeHandleTambah}>
-          <Modal.form encType={"multipart/form-data"} type={"file"} isSucces={isMessage} isError={errorForm || (isMessage !== "success" && isMessage)} onsubmit={handleSubmitTambah}>
-            <Modal.input title={"NamaProduk"} type={"text"} onchange={handleInput} />
-            <Modal.input title={"Harga"} type={"number"} onchange={handleInput} />
-            <Modal.input title={"Stok"} type={"number"} onchange={handleInput} />
-            <Modal.input title={"FotoProduk"} type={"file"} multiple={true} onchange={handleImage} />
+          <Modal.form encType={"multipart/form-data"} type={"tambah"} isSucces={isMessage} isError={errorForm || (isMessage !== "success" && isMessage)} onsubmit={handleSubmitTambah}>
+            <Modal.input title={"Nama-Produk"} nameId={"NamaProduk"} type={"text"} onchange={handleInput} />
+            <Modal.input title={"Harga"} nameId={"Harga"} type={"number"} onchange={handleInput} />
+            <Modal.input title={"Stok"} nameId={"Stok"} type={"number"} onchange={handleInput} />
+            <Modal.input title={"Foto-Produk"} nameId={"FotoProduk"} type={"file"} multiple={true} onchange={handleImage} />
           </Modal.form>
         </Modal>
       )}
       {toggleEdit && (
         <Modal onclickModal={closeHandleEdit}>
           {produkSingle && (
-            <Modal.form isSucces={isMessage} isError={errorForm || (isMessage !== "success" && isMessage)} onsubmit={(e) => handleSubmitEdit(e,produkSingle._id)}>
-              <Modal.input title={"NamaProduk"} type={"text"} value={valueForm.NamaProduk} onchange={handleInput} />
-              <Modal.input title={"Harga"} type={"number"} value={valueForm.Harga} onchange={handleInput} />
-              <Modal.input title={"Stok"} type={"number"} value={valueForm.Stok} onchange={handleInput} />
+            <Modal.form isSucces={isMessage} type={"update"} isError={errorForm || (isMessage !== "success" && isMessage)} onsubmit={(e) => handleSubmitEdit(e,produkSingle._id)}>
+              <Modal.input title={"Nama-Produk"} nameId={"NamaProduk"} type={"text"} value={valueForm.NamaProduk} onchange={handleInput} />
+              <Modal.input title={"Harga"} nameId={"Harga"} type={"number"} value={valueForm.Harga} onchange={handleInput} />
+              <Modal.input title={"Stok"} nameId={"Stok"} type={"number"} value={valueForm.Stok} onchange={handleInput} />
             </Modal.form>
           )}
         </Modal>

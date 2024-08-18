@@ -18,7 +18,7 @@ const ModalForm = ({ children, encType, type, onsubmit,isError,isSucces }) => {
   return (
     <form encType={encType} className="flex flex-col gap-4" onSubmit={onsubmit}>
       {children}
-      {type === "file" && <small className="py-1 font-semibold">Notes: maks 3 - gambar. gambar tidak dapat diedit, pastikan masukan dengan benar! </small>}
+      {encType === "multipart/form-data" && <small className="py-1 font-semibold">Notes: maks 3 - gambar. gambar tidak dapat diedit, pastikan masukan dengan benar! </small>}
       <pre className=" text-rose-600 mx-auto">{isError}</pre>
       <pre className=" text-teal-600 mx-auto">{isSucces}</pre>
       <button type="submit" className="w-20 mx-auto rounded bg-slate-950 text-white font-medium">
@@ -28,11 +28,11 @@ const ModalForm = ({ children, encType, type, onsubmit,isError,isSucces }) => {
   );
 };
 
-const ModalInput = ({ title, type, onchange, value, multiple = false }) => {
+const ModalInput = ({ title, nameId, type, onchange, value, multiple = false }) => {
   return (
-    <div className="flex mx-auto flex-col w-72">
-      <label htmlFor={title}>{title}</label>
-      <input type={type} value={value} name={title} id={title} multiple={multiple} className={`px-2 rounded border-2 border-sky-200 ${type === 'file' && 'border-none'}`} onChange={onchange} />
+    <div className={`w-72 flex mx-auto ${type === "radio" ? "flex-row-reverse justify-end gap-2": "flex-col" } `}>
+      <label htmlFor={nameId}>{title}</label>
+      <input type={type} value={value} name={nameId} id={nameId} multiple={multiple} className={`px-2 rounded border-2 border-sky-200 ${type === 'file' && 'border-none'}`} onChange={onchange} />
     </div>
   );
 };
