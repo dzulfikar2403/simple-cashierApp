@@ -18,7 +18,7 @@ const Pelanggan = () => {
     Alamat: "",
     NomorTelepon: "",
   });
-
+    
   //global func
   const handleInput = (e) => {
     const { name, value } = e.target;

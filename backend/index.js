@@ -6,6 +6,7 @@ const app = express();
 const pelangganRoute = require('./router/pelanggan');
 const produkRoute = require('./router/produk');
 const penjualanRoute = require('./router/penjualan');
+const usersRoute = require('./router/users');
 
 //middleware
 app.use(cors());
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 app.use('/produk',produkRoute)
 app.use('/pelanggan',pelangganRoute)
 app.use('/penjualan',penjualanRoute)
+app.use('/users',usersRoute)
 
 app.listen(process.env.PORT, () => {
   console.log(`server running at ${process.env.PORT}`);

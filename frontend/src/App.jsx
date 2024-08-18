@@ -1,30 +1,57 @@
-import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
-import DashboardLayout from "./components/layout/DashboardLayout"
-import Home from "./pages/dashboard/Home"
-import { Provider } from "react-redux"
-import Store from "./redux/Store"
-import ProdukDetail from "./pages/ProdukDetail"
-import Produk from "./pages/dashboard/Produk"
-import Pelanggan from "./pages/dashboard/Pelanggan"
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import DashboardLayout from "./components/layout/DashboardLayout";
+import Home from "./pages/dashboard/Home";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import Store from "./redux/Store";
+import ProdukDetail from "./pages/ProdukDetail";
+import Produk from "./pages/dashboard/Produk";
+import Pelanggan from "./pages/dashboard/Pelanggan";
+import { useEffect } from "react";
+import { login } from "./redux/reducer/authSlice";
+import AuthLayout from "./components/layout/AuthLayout";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import UserPage from "./pages/dashboard/UserPage";
 
 function App() {
   return (
-    <>
     <Provider store={Store}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<p>test</p>} />
-          <Route path="/dashboard/home" element={<Home />} />
-          <Route path="/dashboard/produk" element={<Produk />} />
-          <Route path="/produk/:id" element={<ProdukDetail />} />
-          <Route path="/dashboard/pelanggan" element={<Pelanggan />} />
-          <Route path="/dashboard/penjualan" element={<DashboardLayout />} />
-          <Route path="/dashboard/user" element={<DashboardLayout />} />
-        </Routes>
-      </Router>
+      <AppWithRouter />
     </Provider>
-    </>
-  )
+  );
 }
 
-export default App
+//jika ingin mengdispatch, dispatch harus berada didalam naungan provider redux
+function AppWithRouter() {
+  const dispatch = useDispatch();
+  const {userInfo} = useSelector(state => state.authSlice);
+
+  const checkUser = () => {
+    const user = localStorage.getItem('user');        
+    if (user) {
+      dispatch(login(user));
+    }
+  };
+
+  useEffect(() => {  
+    checkUser();
+  }, []);
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<p>test</p>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard/home" element={userInfo ? <Home /> : <Navigate to={'/login'}/>} />
+        <Route path="/dashboard/produk" element={userInfo ? <Produk /> : <Navigate to={'/login'}/>} />
+        <Route path="/produk/:id" element={userInfo ? <ProdukDetail /> : <Navigate to={'/login'}/>} />
+        <Route path="/dashboard/pelanggan" element={userInfo ? <Pelanggan /> : <Navigate to={'/login'}/>} />
+        <Route path="/dashboard/penjualan" element={userInfo ? <DashboardLayout /> : <Navigate to={'/login'}/>} />
+        <Route path="/dashboard/user" element={userInfo?.role === 1 ? <UserPage /> : <Navigate to={'/login'}/>} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
