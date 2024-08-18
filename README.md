@@ -1,5 +1,4 @@
-
-## Simple cashierApp for School Project
+# Simple cashierApp for School Project
 **Client :** ReactJS, TailwindCSS, Redux-Toolkit
 
 **Server :** ExpressJS, NodeJS, MongoDB
