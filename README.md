@@ -3,7 +3,7 @@
 
 **Server :** ExpressJS, NodeJS, MongoDB
 
-## 🚀 Deployment
+## 🚀 Running App
 To Run this Project
 
 ****Notes*** : dont forget to setting .env for PORT and SECRET . SECRET for jwt authentication string
