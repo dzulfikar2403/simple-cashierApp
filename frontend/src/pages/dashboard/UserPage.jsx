@@ -32,8 +32,8 @@ const UserPage = () => {
                   <Table.TableTD>{el.name}</Table.TableTD>
                   <Table.TableTD>{el.email}</Table.TableTD>
                   <Table.TableTD>
-                    {el.role === 1 && Admin}
-                    {el.role === 2 && petugas}
+                    {el.role === 1 && "Admin"}
+                    {el.role === 2 && "petugas"}
                   </Table.TableTD>
                   <Table.TableTD>
                     <div className="flex gap-4 text-white font-semibold">

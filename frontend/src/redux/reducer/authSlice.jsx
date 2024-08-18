@@ -2,16 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import useDecodejwt from "../../hooks/useDecodejwt";
 
-export const getAllUsers = createAsyncThunk("auth/getAllUsers",async () => {
-  const {data} = await axios.get("http://localhost:3000/users/");
+export const getAllUsers = createAsyncThunk("auth/getAllUsers", async () => {
+  const { data } = await axios.get("http://localhost:3000/users/");
 
   return data;
-})
+});
 
-export const deleteUser = createAsyncThunk("auth/deleteUser",async (id,thunkAPI) => {
-  if(confirm("are you sure ?") === true){
+export const deleteUser = createAsyncThunk("auth/deleteUser", async (id, thunkAPI) => {
+  if (confirm("are you sure ?") === true) {
     try {
-      const {data} = await axios.delete(`http://localhost:3000/users/${id}`);
+      const { data } = await axios.delete(`http://localhost:3000/users/${id}`);
       thunkAPI.dispatch(logout());
 
       return data;
@@ -19,9 +19,24 @@ export const deleteUser = createAsyncThunk("auth/deleteUser",async (id,thunkAPI)
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
-})
+});
 
-export const loginAuth = createAsyncThunk("auth/loginAuth", async (obj,thunkApi) => {
+export const registerAuth = createAsyncThunk("auth/registerAuth", async (obj, thunkApi) => {
+  // register hanya untuk admin
+  if (obj.role === 1 && obj.password === obj.confirmPassword) {
+    try {
+      const { data } = await axios.post("http://localhost:3000/users/register", obj);
+
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response.data);
+    }
+  } else {
+    return thunkApi.rejectWithValue("role must be 1/admin & password must be matched with confirm password!");
+  }
+});
+
+export const loginAuth = createAsyncThunk("auth/loginAuth", async (obj, thunkApi) => {
   const { decodeJwt } = useDecodejwt();
 
   try {
@@ -41,7 +56,7 @@ export const loginAuth = createAsyncThunk("auth/loginAuth", async (obj,thunkApi)
       return finalObj;
     }
   } catch (error) {
-    return thunkApi.rejectWithValue(error.response.data)
+    return thunkApi.rejectWithValue(error.response.data);
   }
 });
 
@@ -67,14 +82,13 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     // getAllUsers
-    builder.addCase(getAllUsers.fulfilled, (state,action)  => {
+    builder.addCase(getAllUsers.fulfilled, (state, action) => {
       state.isLoading = false;
       state.users = action.payload;
-    })
+    });
 
     //deleteUser
-    builder.addCase(deleteUser.fulfilled, (state, action) => {
-      state.isMessage = action.payload;
+    builder.addCase(deleteUser.fulfilled, (state) => {
       state.isError = null;
     });
     builder.addCase(deleteUser.rejected, (state, action) => {
@@ -88,6 +102,16 @@ const authSlice = createSlice({
     });
     builder.addCase(loginAuth.rejected, (state, action) => {
       state.isError = action.payload;
+    });
+
+    // registerAuth
+    builder.addCase(registerAuth.fulfilled, (state, action) => {
+      state.isMessage = action.payload;
+      state.isError = null;
+    });
+    builder.addCase(registerAuth.rejected, (state, action) => {
+      state.isError = action.payload;
+      state.isMessage = null;
     });
   },
 });

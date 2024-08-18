@@ -27,18 +27,12 @@ const Login = () => {
 
     dispatch(loginAuth(valueForm));
   }
-  
-  useEffect(() => {
-    if(userInfo){
-      navigate('/dashboard/home')
-    }
-  },[dispatch,userInfo])
 
   return (
     <AuthLayout mainTitleTo={'Create Account for Admin'} titleTo={'register'}>
       <AuthLayout.authForm typeAuth={'Login'} onsubmit={handleSubmit}>
-        <AuthLayout.authInput type={'text'} title={'email'} onchange={handleInput}/>
-        <AuthLayout.authInput type={'password'} title={'password'} onchange={handleInput}/>
+        <AuthLayout.authInput type={'text'} title={'email'} onchange={handleInput} required={true}/>
+        <AuthLayout.authInput type={'password'} title={'password'} onchange={handleInput} required={true}/>
       </AuthLayout.authForm>
     </AuthLayout>
   )

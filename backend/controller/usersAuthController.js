@@ -31,7 +31,7 @@ const registerPost = async (req,res) => {
     await Users.create({name,email,password: passwordHash,role});
     res.json('success registering');
   } catch (error) {
-    res.json(error.message)
+    res.status(400).json(error.message)
   }
 } 
 
@@ -49,7 +49,7 @@ const loginPost = async (req,res) => {
     
     const checkEmail = await Users.findOne().where('email').equals(email);
     if(!checkEmail){
-      throw Error('invalid email or password!')
+      throw Error('invalid email or not registered! create account first.')
     }
 
     const matchingPw = await bcrypt.compare(password,checkEmail.password);

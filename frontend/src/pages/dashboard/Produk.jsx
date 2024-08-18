@@ -137,7 +137,7 @@ const Produk = () => {
           <Loader />
         ) : (
           <Table tHead={tHeadProduk} onclickBtn={openHandleTambah}>
-            {(dataTemp || []) &&
+            {dataTemp &&
               dataTemp.map((el, i) => (
                 <Table.TableR key={i}>
                   <Table.TableTD>{el._id}</Table.TableTD>

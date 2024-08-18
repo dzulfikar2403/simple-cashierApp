@@ -41,8 +41,8 @@ function AppWithRouter() {
     <Router>
       <Routes>
         <Route path="/" element={<p>test</p>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={userInfo ? <Navigate to={'/dashboard/home'} /> : <Login />} />
+        <Route path="/register" element={userInfo ? <Navigate to={'/dashboard/home'} /> : <Register /> } />
         <Route path="/dashboard/home" element={userInfo ? <Home /> : <Navigate to={'/login'}/>} />
         <Route path="/dashboard/produk" element={userInfo ? <Produk /> : <Navigate to={'/login'}/>} />
         <Route path="/produk/:id" element={userInfo ? <ProdukDetail /> : <Navigate to={'/login'}/>} />
