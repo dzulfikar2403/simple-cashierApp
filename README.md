@@ -1,9 +1,9 @@
-# Simple cashierApp for School Project
+# 📜 Simple cashierApp for School Project
 **Client :** ReactJS, TailwindCSS, Redux-Toolkit
 
 **Server :** ExpressJS, NodeJS, MongoDB
 
-### Deployment
+## 🚀 Deployment
 To Run this Project
 
 ****Notes*** : dont forget to setting .env for PORT and SECRET . SECRET for jwt authentication string
