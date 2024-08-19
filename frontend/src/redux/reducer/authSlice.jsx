@@ -22,7 +22,7 @@ export const deleteUser = createAsyncThunk("auth/deleteUser", async (id, thunkAP
 });
 
 //register via form admin. bisa untuk petugas dan admin.
-export const registerUser = createAsyncThunk("auth/registerUser", async (obj,thunkAPI) => {
+export const registerUser = createAsyncThunk("auth/registerUser", async (obj, thunkAPI) => {
   try {
     const { data } = await axios.post("http://localhost:3000/users/register", obj);
     thunkAPI.dispatch(getAllUsers());
@@ -31,20 +31,34 @@ export const registerUser = createAsyncThunk("auth/registerUser", async (obj,thu
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
   }
+});
+
+
+export const validateRegist = createAsyncThunk("auth/validateRegist", async (obj,thunkAPI) => {
+  try {
+    const {data} = await axios.post("http://localhost:3000/users/validateRegisterAuth", obj);
+
+    return data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
 })
 
 // register hanya untuk admin
-export const registerAuth = createAsyncThunk("auth/registerAuth", async (obj, thunkAPI) => {
+export const registerAuth = createAsyncThunk("auth/registerAuth", async ({ obj, roleUser }, thunkAPI) => {
   if (obj.role === 1 && obj.password === obj.confirmPassword) {
     try {
-      const { data } = await axios.post("http://localhost:3000/users/register", obj);
+      if(roleUser !== 1){
+        throw Error('just for admin!')
+      }
 
+      const { data } = await axios.post("http://localhost:3000/users/register", obj);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
     }
   } else {
-    return thunkAPI.rejectWithValue("role must be 1/admin & password must be matched with confirm password!");
+    return thunkAPI.rejectWithValue("password must be matched with confirm password!");
   }
 });
 
@@ -73,6 +87,7 @@ export const loginAuth = createAsyncThunk("auth/loginAuth", async (obj, thunkAPI
 const initialState = {
   users: null,
   userInfo: null,
+  userValidateRegist: null,
   isLoading: true,
   isMessage: null,
   isError: null,
@@ -89,12 +104,18 @@ const authSlice = createSlice({
       state.userInfo = null;
       localStorage.removeItem("user");
     },
+    setUserValidateOut: (state) => {
+      state.userValidateRegist = null;
+    }
   },
   extraReducers: (builder) => {
     // getAllUsers
     builder.addCase(getAllUsers.fulfilled, (state, action) => {
       state.isLoading = false;
       state.users = action.payload;
+    });
+    builder.addCase(getAllUsers.rejected, (state) => {
+      state.isLoading = false;
     });
 
     //deleteUser
@@ -124,6 +145,15 @@ const authSlice = createSlice({
       state.isError = action.payload;
     });
 
+    // validateRegist
+    builder.addCase(validateRegist.fulfilled, (state, action) => {
+      state.userValidateRegist = action.payload;
+      state.isError = null;
+    });
+    builder.addCase(validateRegist.rejected, (state, action) => {
+      state.isError = action.payload;
+    });
+
     // registerAuth
     builder.addCase(registerAuth.fulfilled, (state, action) => {
       state.isMessage = action.payload;
@@ -136,5 +166,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setUserValidateOut } = authSlice.actions;
 export default authSlice.reducer;

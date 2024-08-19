@@ -22,7 +22,9 @@ const ModalForm = ({ children, encType, type, onsubmit,isError,isSucces }) => {
       <pre className=" text-rose-600 mx-auto">{isError}</pre>
       <pre className=" text-teal-600 mx-auto">{isSucces}</pre>
       <button type="submit" className="w-20 mx-auto rounded bg-slate-950 text-white font-medium">
-        {type === "tambah" ? "ADD" : "UPDATE"}
+        {type === "tambah" && "ADD"}
+        {type === "update" && "UPDATE"}
+        {type === "validate" && "VALIDATE"}
       </button>
     </form>
   );

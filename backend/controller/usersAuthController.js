@@ -8,6 +8,34 @@ const getDataUsers = async (req,res) => {
   res.json(allData)
 };
 
+const validateRegisterAuth = async (req,res) => {
+  const {email, password} = req.body;
+
+  try {
+    if(!email || !password){
+      throw Error("field must be fill!");
+    }
+
+    if(!validator.isEmail(email)){
+      throw Error("invalid typeof email!")
+    }
+
+    const emailMatch = await Users.findOne().where('email').equals(email).where('role').equals(1);
+    if(!emailMatch){
+      throw Error("email not found or not an admin")
+    }
+
+    const comparePassword = await bcrypt.compare(password,emailMatch.password);
+    if(!comparePassword){
+      throw Error("invalid password")
+    }
+
+    res.json(emailMatch);
+  } catch (error) {
+    res.status(400).json(error.message)
+  }
+} 
+
 const registerPost = async (req,res) => {
   const {name,email,password,role} = req.body;
 
@@ -80,4 +108,4 @@ const deleteUsers = async (req,res) => {
   }
 }
 
-module.exports = {getDataUsers,registerPost,loginPost,deleteUsers}
+module.exports = {getDataUsers,registerPost,loginPost,deleteUsers,validateRegisterAuth}

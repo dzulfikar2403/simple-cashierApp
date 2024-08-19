@@ -86,10 +86,10 @@ const UserPage = () => {
             <Modal.input title={"Name"} nameId={"name"} type={"text"} onchange={handleInput} />
             <Modal.input title={"Email"} nameId={"email"} type={"text"} onchange={handleInput} />
             <Modal.input title={"Password"} nameId={"password"} type={"text"} onchange={handleInput} />
-            <label htmlFor="role">Choose a role :</label>
-            <select name="role" id="role" value={valueForm.role} onChange={handleInput}>
-              <option value={1}>admin</option>
-              <option value={2}>petugas</option>
+            <label htmlFor="roles">Choose a role :</label>
+          <select id="roles" name="role" className="mx-auto text-center w-1/2 px-2 outline-none rounded border-2 border-sky-200">
+              <option value={1} className="text-white bg-sky-950 ">admin</option>
+              <option value={2} className="text-white bg-sky-950">petugas</option>
             </select>
           </Modal.form>
         </Modal>

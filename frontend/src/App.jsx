@@ -8,7 +8,6 @@ import Produk from "./pages/dashboard/Produk";
 import Pelanggan from "./pages/dashboard/Pelanggan";
 import { useEffect } from "react";
 import { login } from "./redux/reducer/authSlice";
-import AuthLayout from "./components/layout/AuthLayout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserPage from "./pages/dashboard/UserPage";
@@ -24,7 +23,7 @@ function App() {
 //jika ingin mengdispatch, dispatch harus berada didalam naungan provider redux
 function AppWithRouter() {
   const dispatch = useDispatch();
-  const {userInfo} = useSelector(state => state.authSlice);
+  const {userInfo,userValidateRegist} = useSelector(state => state.authSlice);
 
   const checkUser = () => {
     const user = localStorage.getItem('user');        
@@ -41,8 +40,8 @@ function AppWithRouter() {
     <Router>
       <Routes>
         <Route path="/" element={<p>test</p>} />
+        <Route path="/register" element={userInfo || !userValidateRegist ? <Navigate to={'/login'} /> : <Register /> } />
         <Route path="/login" element={userInfo ? <Navigate to={'/dashboard/home'} /> : <Login />} />
-        <Route path="/register" element={userInfo ? <Navigate to={'/dashboard/home'} /> : <Register /> } />
         <Route path="/dashboard/home" element={userInfo ? <Home /> : <Navigate to={'/login'}/>} />
         <Route path="/dashboard/produk" element={userInfo ? <Produk /> : <Navigate to={'/login'}/>} />
         <Route path="/produk/:id" element={userInfo ? <ProdukDetail /> : <Navigate to={'/login'}/>} />

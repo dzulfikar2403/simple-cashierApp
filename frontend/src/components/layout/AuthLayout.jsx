@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
-const AuthLayout = ({ children, mainTitleTo, titleTo }) => {
+const AuthLayout = ({ children, mainTitleTo, titleTo, onclick }) => {
   return (
     <div className="min-h-screen w-full flex justify-center items-center ">
       <div className="min-h-80 flex border-2 border-[#1E1E1E] rounded">
         <div className="w-48 px-4 py-16 flex justify-end items-center gap-4 flex-col bg-[#1E1E1E]">
           <h1 className=" text-center text-xl text-white font-bold">{mainTitleTo}</h1>
-          <Link to={`/${titleTo}`} className="text-xl bg-white font-bold px-4 py-2 border-2 border-white rounded transition-all duration-500 hover:bg-transparent hover:text-white">{titleTo}</Link>
+          <button className="text-xl bg-white font-bold px-4 py-2 border-2 border-white rounded transition-all duration-500 hover:bg-transparent hover:text-white" onClick={onclick}>{titleTo}</button>
         </div>
         <div className="px-6 py-4 flex justify-center flex-col gap-10">{children}</div>
       </div>

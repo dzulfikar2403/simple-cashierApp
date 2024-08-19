@@ -78,7 +78,7 @@ const Pelanggan = () => {
 
   // useeffect
   useEffect(() => {
-    setTHeadProduk(["ID Pelanggan", "Nama", "Alamat", "No.Telp", "Aksi"]);
+    setTHeadProduk(["ID Member", "Nama", "Alamat", "No.Telp", "Aksi"]);
     dispatch(getPelangganData());
   }, []);
 
@@ -103,7 +103,7 @@ const Pelanggan = () => {
     <DashboardLayout>
       <div className="p-8">
         <div className="flex justify-between">
-          <h1 className="text-4xl font-bold ">Data Pelanggan</h1>
+          <h1 className="text-4xl font-bold ">Data Member</h1>
           <input type="text" name="search" id="search" placeholder="Search" className="border-b border-sky-300 outline-none focus:border-b-2" onChange={searching} />
         </div>
         {isLoading ? (
