@@ -146,10 +146,10 @@ const Produk = () => {
                   <Table.TableTD>{el.Stok}</Table.TableTD>
                   <Table.TableTD>
                     <div className="flex gap-4 text-white font-semibold">
-                      <button className="p-2 bg-rose-400" onClick={() => dispatch(deleteProduct(el._id))}>
+                      <button className="p-2 bg-gradient-to-r from-rose-800 via-rose-500 to-rose-300 rounded" onClick={() => dispatch(deleteProduct(el._id))}>
                         del
                       </button>
-                      <button className="p-2 bg-yellow-400" onClick={() => openHandleEdit(el._id)}>
+                      <button className="p-2 bg-gradient-to-r from-yellow-800 via-yellow-500 to-yellow-300 rounded" onClick={() => openHandleEdit(el._id)}>
                         edit
                       </button>
                     </div>

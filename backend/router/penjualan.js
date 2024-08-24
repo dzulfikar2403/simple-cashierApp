@@ -4,7 +4,7 @@ const penjualanController = require('../controller/penjualanController')
 
 router.route('/')
   .get(penjualanController.getData)
-  // .post(penjualanController.postData)
+  .post(penjualanController.postData)
 
 router.get('/:id',penjualanController.getDataById)
 router.delete('/:id',penjualanController.deleteData)

@@ -11,6 +11,7 @@ import { login } from "./redux/reducer/authSlice";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserPage from "./pages/dashboard/UserPage";
+import Penjualan from "./pages/dashboard/Penjualan";
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function AppWithRouter() {
         <Route path="/dashboard/produk" element={userInfo ? <Produk /> : <Navigate to={'/login'}/>} />
         <Route path="/produk/:id" element={userInfo ? <ProdukDetail /> : <Navigate to={'/login'}/>} />
         <Route path="/dashboard/pelanggan" element={userInfo ? <Pelanggan /> : <Navigate to={'/login'}/>} />
-        <Route path="/dashboard/penjualan" element={userInfo ? <DashboardLayout /> : <Navigate to={'/login'}/>} />
+        <Route path="/dashboard/penjualan" element={userInfo ? <Penjualan /> : <Navigate to={'/login'}/>} />
         <Route path="/dashboard/user" element={userInfo?.role === 1 ? <UserPage /> : <Navigate to={'/dashboard/home'}/>} />
       </Routes>
     </Router>

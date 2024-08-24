@@ -1,12 +1,10 @@
 import React from "react";
 import BtnTambah from "../element/BtnTambah";
 
-const Table = ({ children, tHead, onclickBtn }) => {
+const Table = ({ children, tHead, onclickBtn, type }) => {
   return (
     <>
-      <div className="py-4">
-        <BtnTambah onclick={onclickBtn} />
-      </div>
+      <div className="py-4">{type !== "penjualan" && <BtnTambah onclick={onclickBtn}>Tambah</ BtnTambah>}</div>
       <table>
         <thead>
           <tr>{tHead && tHead.map((el, i) => <th key={i}>{el}</th>)}</tr>
@@ -22,7 +20,7 @@ const TableR = ({ children }) => {
 };
 
 const TableTD = ({ children }) => {
-  return <td>{children}</td>;
+  return <td className="text-sm">{children}</td>;
 };
 
 Table.TableR = TableR;

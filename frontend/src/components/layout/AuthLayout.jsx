@@ -44,14 +44,14 @@ const AuthLayoutInput = ({ type,title,onchange,required }) => {
         <div className="relative flex items-center">
           {hidePw ? (
             <>
-              <input type="password" name={title} id={title} required={required} className="peer w-72 mx-auto ps-2 pe-7 border border-slate-400 rounded-sm outline-none focus:border-2" placeholder={title} onChange={onchange}/>
+              <input type="password" name={title} id={title} required={required} className="peer w-72 mx-auto ps-2 pe-7 border border-slate-400 rounded-sm outline-none focus:border-2" placeholder={"***********"} onChange={onchange}/>
               <span className="peer-focus:border-2 peer-focus:border-black absolute right-0 p-1 bg-black text-white cursor-pointer rounded-r-sm">
                 <HiEyeOff onClick={() => setHidePw((pre) => !pre)} />
               </span>
             </>
           ) : (
             <>
-              <input type="text" name={title} id={title} required={required} className="peer w-72 mx-auto ps-2 pe-7 border border-slate-400 rounded-sm outline-none focus:border-2" placeholder={title} onChange={onchange}/>
+              <input type="text" name={title} id={title} required={required} className="peer w-72 mx-auto ps-2 pe-7 border border-slate-400 rounded-sm outline-none focus:border-2" placeholder={"***********"} onChange={onchange}/>
               <span className="peer-focus:border-2 peer-focus:border-black absolute right-0 p-1 bg-black text-white cursor-pointer rounded-r-sm">
                 <HiEye onClick={() => setHidePw((pre) => !pre)} />
               </span>

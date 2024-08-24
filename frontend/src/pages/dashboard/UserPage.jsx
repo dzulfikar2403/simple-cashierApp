@@ -70,7 +70,7 @@ const UserPage = () => {
                   </Table.TableTD>
                   <Table.TableTD>
                     <div className="flex gap-4 text-white font-semibold">
-                      <button className="p-2 bg-rose-400" onClick={() => handleDelete(el._id)}>
+                      <button className="p-2 bg-gradient-to-r from-rose-800 via-rose-500 to-rose-300 rounded" onClick={() => handleDelete(el._id)}>
                         del
                       </button>
                     </div>
